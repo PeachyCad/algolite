@@ -1,0 +1,7 @@
+﻿  AlgoliteParser.cpp
+D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(25,14): warning C4244: инициализация: преобразование "std::streamoff" в "size_t", возможна потеря данных
+D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(685,40): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
+D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1134,34): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
+D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1139,34): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
+D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1144,35): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
+  AlgoliteParser.vcxproj -> D:\Program Files\source\AlgoliteProject\AlgoliteParser\Debug\AlgoliteParser.exe

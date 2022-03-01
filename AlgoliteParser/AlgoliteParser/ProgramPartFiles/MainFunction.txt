@@ -1,0 +1,38 @@
+int main() {
+    vector<pair<long long, double>> func;
+    findComplexityClass(func);
+
+    RGBABitmapImageReference* imageReference = CreateRGBABitmapImageReference();
+
+    for (auto points_pair = func.begin(); points_pair != func.end(); points_pair++) {
+        xs.push_back((*points_pair).first);
+        ys.push_back((*points_pair).second);
+    }
+
+    ScatterPlotSeries* series = GetDefaultScatterPlotSeriesSettings();
+    series->xs = &xs;
+    series->ys = &ys;
+    series->linearInterpolation = true;
+    series->lineThickness = 5;
+    series->color = CreateRGBColor(0.5, 0.7, 1);
+
+    ScatterPlotSettings* settings = GetDefaultScatterPlotSettings();
+    settings->width = 1000;
+    settings->height = 1000;
+    settings->autoBoundaries = true;
+    settings->autoPadding = true;
+    settings->title = toVector(graph_title);
+    settings->xLabel = toVector(L"complexity parameter");
+    settings->yLabel = toVector(L"operations");
+    settings->scatterPlotSeries->push_back(series);
+    settings->gridColor = CreateRGBColor(0.6, 0.6, 0.6);
+    settings->showGrid = true;
+
+    DrawScatterPlotFromSettings(imageReference, settings);
+
+    vector<double>* pngdata = ConvertToPNG(imageReference->image);
+
+    WriteToFile(pngdata, "func.png");
+    DeleteImage(imageReference->image);
+    system("start func.png");
+}
