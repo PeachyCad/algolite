@@ -1,0 +1,54 @@
+void findComplexityClass(vector<pair<long long, double>>& func) {
+    vector<pair<long long, double>> logarithmic_func;
+    pair<double, double> params;
+    int first_degree, second_degree;
+    double first_error, second_error;
+    
+    func = createComplexityFunc();
+
+    deleteOverflowing(func);
+
+    params = linearRegression(func);
+    first_error = params.first;
+    first_degree = (int) round(abs(params.second));
+
+    logarithmic_func = createLogarithmicComplexityFunc();
+
+    deleteOverflowing(logarithmic_func);
+
+    params = linearRegression(logarithmic_func);
+    second_error = params.first;
+    second_degree = (int) round(abs(params.second));
+   
+    complexity_class = "O(";
+
+    if (first_error < second_error) {
+        if (first_degree != 0) {
+            complexity_class += "x";
+            if (first_degree > 1 && first_degree <= 5)
+				complexity_class += "^" + to_string(first_degree);
+			else if (first_degree > 5)
+					complexity_class = "> " + complexity_class + "^5";
+        }
+        else
+            complexity_class += "1";
+    }
+    else {
+        if (second_degree != 0) {
+            complexity_class += "x";
+            if (second_degree > 1 && second_degree <= 5)
+				complexity_class += "^" + to_string(second_degree);
+			else if (second_degree > 5)
+					complexity_class = "> " + complexity_class + "^5";
+            complexity_class += " * ";
+        }
+        complexity_class += "log(x)";
+    }
+
+    complexity_class += ")";
+
+    w = wstring(complexity_class.begin(), complexity_class.end());
+    graph_title = w.c_str();
+
+}
+
