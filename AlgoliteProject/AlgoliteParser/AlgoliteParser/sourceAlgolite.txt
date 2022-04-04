@@ -1,0 +1,58 @@
+
+parameter par(4, 45, 1);
+
+long long factorial(int n) {
+    long long f =1;
+    for(long long i=2; i<=n;i++)
+    f*=i;
+    return f;
+}
+
+void matrixComputing() {
+	double a[ 100 ][ 100 ] ; double b[ 100 ][ 100 ] ; double c[ 100 ][ 100 ] ;
+		int i, j ;
+		for ( i = 0 ; i < par ; ++i)
+			for ( j = 0 ; j < par ; ++j) {
+				a[ i ][ j ] = 1.0 ;	b[ i ][ j ] = 1.0 ; c[ i ][ j ] = 0 ;
+			}
+		i = 4 ; j = 0 ;
+		for ( int v = 0 ; v < par ; ++v) {
+			a[ i ][ j ] = 2.0 ;
+			i -= 1 ;
+			j += 1 ;
+		}
+		i = 4 ;	j = 4 ;
+		for ( int v = 0 ; v < par ; ++v) {
+			b[ i ][ j ] = 2.0 ;
+			i -= 1 ;
+			j -= 1 ;
+		}
+		a[ 2 ][ 4 ] = 3.0 ;
+		for ( i = 0 ; i < par ; ++i) {
+			for ( j = 0 ; j < par ; ++j)
+				cout << a[ i ][ j ] << " " ;
+			cout << endl ;
+		}
+		#ANALYSIS_ON#
+		cout << endl << endl ;
+		b[ 3 ][ 2 ] = 5.0 ;
+		for ( i = 0 ; i < par ; ++i) {
+			for ( j = 0 ; j < par ; ++j)
+				cout << b[ i ][ j ] << " " ;
+			cout << endl ;
+		}
+		cout << endl << endl ;
+		for ( i = 0 ; i < par ; ++i)
+			for ( j = 0 ; j < par ; ++j)
+				for ( int k = 0 ; k < par ; ++k) c[ i ][ j ] += a[ i ][ k ] * b[ k ][ j ] ;
+		for ( i = 0 ; i < par ; ++i) {
+			for ( j = 0 ; j < par  ; ++j)
+				cout << c[ i ][ j ] << " " ;
+			cout << endl ;
+		}
+	}
+
+void main() {
+    matrixComputing();
+}
+

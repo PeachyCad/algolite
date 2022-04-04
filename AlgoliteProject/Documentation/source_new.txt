@@ -1,0 +1,56 @@
+void newFunc ( int a , bool b [ 5 ] [ ], long long c [ 1 ]) {  
+
+    oldFunc (4 - 5 , true , ( Abc * 10 + 32.1 ) % 7 ) ;
+    elderFunc (b [ 5 ]);
+    cout << " Cool " << nice << "Awesome" ;
+
+    break; continue;
+    cout << 5577; 
+    return 1;
+    to_inc++; --to_dec;
+    a = 57 * 9 ;
+    b -= -3;
+    b = b - (-3);
+    c += b;
+    c = c + b;
+
+    d *= 123.0;
+    d = d * 123.0;
+
+    e /= 43;
+    e = e / 43;
+
+    f %= 2;
+    f = f % 2;
+
+    if (a > 3)
+        a = 3;
+
+    if (a && b != true)
+        a = 3;
+
+    while (b || a) 
+        c++;
+
+    for (; true ;) {
+       cout << "Nice cycling" << "\n" ;
+    }
+
+    for (int i = 0; i < 10 ; i++) g+=e;
+
+    switch (d) {  case 0 + 1: return a + b; break; case a * b / 2: return 0; break;  }
+
+    switch (d) {  
+        case true: 
+            return 100;
+            break; 
+        case false: 
+            return 100.15; 
+            break; 
+    }
+
+}
+
+
+
+

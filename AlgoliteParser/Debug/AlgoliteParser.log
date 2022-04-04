@@ -1,3 +1,0 @@
-﻿  AlgoliteParser.cpp
-D:\Program Files\source\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(15,14): warning C4244: инициализация: преобразование "std::streamoff" в "size_t", возможна потеря данных
-  AlgoliteParser.vcxproj -> D:\Program Files\source\AlgoliteParser\Debug\AlgoliteParser.exe
