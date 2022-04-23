@@ -71,6 +71,18 @@ long long _factorial(int n) {
     _counter += 1;
 for (long long i = 2; _counter += 1, i <= n; i++, _counter += 1) {f *= i, _counter += 2;    }
     _counter += 0;
+switch(f) { 
+    case 5:
+    cout << "f is 5" << "\n", _counter += 0;
+    break;
+    case 1:
+    cout << "f is 1" << "\n", _counter += 0;
+    break;
+    default: 
+    cout << "f is not 5 or 1" << "\n", _counter += 0;
+    break;
+ }
+    _counter += 0;
 return f;
 }
 

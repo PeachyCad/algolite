@@ -15,6 +15,7 @@ struct TranslatingVisitor : Visitor {
 	virtual void handle(IfNode& n);
 	virtual void handle(WhileNode& n);
 	virtual void handle(ForNode& n);
+	virtual void handle(DefaultNode& n);
 	virtual void handle(CaseNode& n);
 	virtual void handle(SwitchNode& n);
 	virtual void handle(BlockNode& n);

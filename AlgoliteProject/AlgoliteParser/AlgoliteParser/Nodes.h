@@ -19,6 +19,7 @@ struct VariableNode;
 struct IfNode;
 struct WhileNode;
 struct ForNode;
+struct DefaultNode;
 struct CaseNode;
 struct SwitchNode;
 struct BlockNode;
@@ -48,6 +49,7 @@ struct Visitor {
 	virtual void handle(IfNode& n) = 0;
 	virtual void handle(WhileNode& n) = 0;
 	virtual void handle(ForNode& n) = 0;
+	virtual void handle(DefaultNode& n) = 0;
 	virtual void handle(CaseNode& n) = 0;
 	virtual void handle(SwitchNode& n) = 0;
 	virtual void handle(BlockNode& n) = 0;
@@ -192,6 +194,14 @@ struct ForNode : public StatementNode {
 	}
 };
 
+struct DefaultNode : public StatementNode {
+	vector<unique_ptr<StatementNode>> commands;
+
+	void visit(Visitor& v) override {
+		v.handle(*this);
+	}
+};
+
 struct CaseNode : public StatementNode {
 	unique_ptr<ExpressionNode> condition;
 	vector<unique_ptr<StatementNode>> commands;
@@ -204,6 +214,7 @@ struct CaseNode : public StatementNode {
 struct SwitchNode : public StatementNode {
 	unique_ptr<ExpressionNode> expression_for_switch;
 	vector<unique_ptr<CaseNode>> cases;
+	unique_ptr<DefaultNode> default_case;
 
 	void visit(Visitor& v) override {
 		v.handle(*this);

@@ -269,6 +269,19 @@ void TranslatingVisitor::handle(ForNode& n) {
 	}
 }
 
+void TranslatingVisitor::handle(DefaultNode& n) {
+	if (writing_mode)
+		analysing_program << "default: " << "\n";
+
+	for (const unique_ptr<StatementNode>& command : n.commands) {
+		if (writing_mode)
+			analysing_program << "    ";
+		command->visit(*this);
+		if (writing_mode)
+			analysing_program << "\n";
+	}
+}
+
 void TranslatingVisitor::handle(CaseNode& n) { 
 	if (writing_mode)
 		analysing_program << "case ";
@@ -300,10 +313,17 @@ void TranslatingVisitor::handle(SwitchNode& n) {
 	analysing_program << ") ";
 
 	analysing_program << "{ " << "\n";
+
 	for (const unique_ptr<CaseNode>& case_command : n.cases) {
 		analysing_program << "    ";
 		case_command->visit(*this);
 	}
+
+	if (n.default_case != nullptr) {
+		analysing_program << "    ";
+		n.default_case->visit(*this);
+	}
+
 	analysing_program << " }";
 }
 

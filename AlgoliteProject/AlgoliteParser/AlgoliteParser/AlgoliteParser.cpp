@@ -46,6 +46,7 @@ enum TokenType {
 	Less = '<',
 	Greater = '>',
 	Colon = ':',
+	Pragma = '#',
 	Semicolon = ';',
 	NewLine = '\n',
 	EndOfFile = '\0',
@@ -55,8 +56,9 @@ enum TokenType {
 	While,
 	Do,
 	Switch,
+	Default,
 	Case,
-	AnalysisDisable, //new
+	AnalysisDisable,
 	Cout,
 	LeftLeft,
 	RightRight,
@@ -136,7 +138,7 @@ void nextSymbol() {
 	case '{': case '}':
 	case '[': case ']':
 	case ',': case ';':
-	case ':':
+	case ':': case '#':
 		symbol = (TokenType)text[index];
 		index++;
 		pos++;
@@ -248,11 +250,13 @@ void nextSymbol() {
 
 		else if (letter()) {
 			current_id = id();
-			//if (current_id == "#ANALYSIS_DISABLE#") symbol = AnalysisDisable; //TODO: проверять такие блоки на вложенность и уровень в иерархии при принадлежности for, if, while, do while
+			if (current_id == "ANALYSIS_DISABLE")
+				symbol = AnalysisDisable; //TODO: проверять такие блоки на вложенность и уровень в иерархии при принадлежности for, if, while, do while
 			if (current_id == "for") symbol = For;
 			else if (current_id == "while") symbol = While;
 			else if (current_id == "do") symbol = Do;
 			else if (current_id == "switch") symbol = Switch;
+			else if (current_id == "default") symbol = Default;
 			else if (current_id == "case") symbol = Case;
 			else if (current_id == "if") symbol = If;
 			else if (current_id == "else") symbol = Else;
@@ -375,8 +379,8 @@ void readNumber() {
 	}
 }
 
-bool letter() { 
-	if (text[index] == '_' || text[index] == '#') return true; //TODO: Обнаружение # вынести в отдельную функцию
+bool letter() {
+	if (text[index] == '_') return true;
 	if (text[index] >= 'a' && text[index] <= 'z') return true;
 	if (text[index] >= 'A' && text[index] <= 'Z') return true;
 	return false;
@@ -435,13 +439,13 @@ unique_ptr<ExpressionNode> factor() {
 		result_factor->operation = '-';
 		return result_factor;
 	}
-	else 
+	else
 		return atom();
 }
 
 unique_ptr<ExpressionNode> term() {
 	unique_ptr<ExpressionNode> temp_factor = factor();
-	
+
 	if (symbol != Mult && symbol != Div && symbol != Mod)
 		return temp_factor;
 
@@ -464,7 +468,7 @@ unique_ptr<ExpressionNode> term() {
 		while (true) {
 			if (symbol != Mult && symbol != Div && symbol != Mod)
 				break;
-			
+
 			string current_operation;
 
 			switch (symbol) {
@@ -615,7 +619,7 @@ unique_ptr<ExpressionNode> expression() {
 		while (true) {
 			if (symbol != Or)
 				break;
-			nextSymbol();	
+			nextSymbol();
 			result_operation->children.push_back(orExpression());
 		}
 		return result_operation;
@@ -839,7 +843,7 @@ unique_ptr<StatementNode> simpleCommand() {
 			else if (symbol == PlusEq || symbol == MinusEq || symbol == MultEq || symbol == DivEq || symbol == ModEq || symbol == Equals) {
 				unique_ptr<AssignmentNode> temp_assignment = make_unique<AssignmentNode>();
 				temp_assignment->variable = move(temp_var);
-				
+
 				switch (symbol) {
 				case PlusEq:
 					temp_assignment->operation = "+=";
@@ -860,7 +864,7 @@ unique_ptr<StatementNode> simpleCommand() {
 					temp_assignment->operation = "=";
 					break;
 				}
-				
+
 				nextSymbol();
 				temp_assignment->value = expression();
 				result_command = move(temp_assignment);
@@ -945,12 +949,22 @@ unique_ptr<ForNode> forCommand() {
 	return result_command;
 }
 
+unique_ptr<DefaultNode> defaultCaseCommand() {
+	unique_ptr<DefaultNode> result_command = make_unique<DefaultNode>();
+	accept(Default);
+	accept(Colon);
+	while (symbol != RBrace)
+		result_command->commands.push_back(command());
+
+	return result_command;
+}
+
 unique_ptr<CaseNode> caseCommand() {
 	unique_ptr<CaseNode> result_command = make_unique<CaseNode>();
 	accept(Case);
 	result_command->condition = expression();
 	accept(Colon);
-	while (symbol != Case && symbol != RBrace)
+	while (symbol != Case && symbol != RBrace && symbol != Default)
 		result_command->commands.push_back(command());
 
 	return result_command;
@@ -963,8 +977,12 @@ unique_ptr<SwitchNode> switchCommand() {
 	result_command->expression_for_switch = expression();
 	accept(RParen);
 	accept(LBrace);
-	while (symbol != RBrace) 
+	while (symbol != RBrace && symbol != Default)
 		result_command->cases.push_back(caseCommand());
+
+	if (symbol == Default) {
+		result_command->default_case = defaultCaseCommand();
+	}
 	nextSymbol();
 
 	return result_command;
@@ -1095,7 +1113,7 @@ unique_ptr<FunctionDefinitionNode> functionDeclaration() {
 		nextSymbol();
 	}
 	result_func_declaration->name = current_id;
-	
+
 	accept(Ident);
 	accept(LParen);
 
@@ -1158,7 +1176,7 @@ Program program() {
 
 	return result_program;
 }
-	
+
 int main() {
 	setlocale(LC_ALL, "ru");
 
