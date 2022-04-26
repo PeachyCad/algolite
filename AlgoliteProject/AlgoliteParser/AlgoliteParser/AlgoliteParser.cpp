@@ -17,6 +17,7 @@ int index, line, pos;
 int prev_symbol_index, prev_symbol_line, prev_symbol_pos;
 bool is_real_number;
 bool has_main = false;
+bool in_non_analysis_block = false;
 double number_value;
 
 string readSource(string file_name) {
@@ -58,7 +59,7 @@ enum TokenType {
 	Switch,
 	Default,
 	Case,
-	AnalysisDisable,
+	AnalysisDisable, //TODO
 	Cout,
 	LeftLeft,
 	RightRight,
@@ -250,9 +251,8 @@ void nextSymbol() {
 
 		else if (letter()) {
 			current_id = id();
-			if (current_id == "ANALYSIS_DISABLE")
-				symbol = AnalysisDisable; //TODO: проверять такие блоки на вложенность и уровень в иерархии при принадлежности for, if, while, do while
-			if (current_id == "for") symbol = For;
+			if (current_id == "ANALYSIS_DISABLE") symbol = AnalysisDisable;
+			else if (current_id == "for") symbol = For;
 			else if (current_id == "while") symbol = While;
 			else if (current_id == "do") symbol = Do;
 			else if (current_id == "switch") symbol = Switch;
@@ -299,6 +299,8 @@ void accept(TokenType expected) {
 		case For: str = "for"; break;
 		case While: str = "while"; break;
 		case Do: str = "do"; break;
+		case Pragma: str = "#"; break;
+		case AnalysisDisable: str = "ANALYSIS_DISABLE"; break;
 		case Switch: str = "switch"; break;
 		case Case: str = "case"; break;
 		case Cout: str = "cout"; break;
@@ -1028,6 +1030,20 @@ unique_ptr<StatementNode> command() {
 		result_command = whileCommand();
 		break;
 
+	case Pragma: {
+		nextSymbol();
+		accept(AnalysisDisable);
+		accept(Pragma);
+		accept(LBrace);
+
+		unique_ptr<NonAnalysisBlockNode> temp_block = make_unique<NonAnalysisBlockNode>();
+		while (symbol != RBrace)
+			temp_block->commands.push_back(command());
+		result_command = move(temp_block);
+		nextSymbol();
+		break;
+	}
+
 	case LBrace: {
 		unique_ptr<BlockNode> temp_block = make_unique<BlockNode>();
 		nextSymbol();
@@ -1046,6 +1062,7 @@ unique_ptr<StatementNode> command() {
 		accept(Semicolon);
 		break;
 	}
+
 	return result_command;
 }
 

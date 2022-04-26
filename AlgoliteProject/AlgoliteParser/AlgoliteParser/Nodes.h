@@ -22,6 +22,7 @@ struct ForNode;
 struct DefaultNode;
 struct CaseNode;
 struct SwitchNode;
+struct NonAnalysisBlockNode;
 struct BlockNode;
 struct FunctionCallNode;
 struct FunctionCallAsStatementNode;
@@ -52,6 +53,7 @@ struct Visitor {
 	virtual void handle(DefaultNode& n) = 0;
 	virtual void handle(CaseNode& n) = 0;
 	virtual void handle(SwitchNode& n) = 0;
+	virtual void handle(NonAnalysisBlockNode& n) = 0;
 	virtual void handle(BlockNode& n) = 0;
 	virtual void handle(FunctionCallNode& n) = 0;
 	virtual void handle(FunctionCallAsStatementNode& n) = 0;
@@ -215,6 +217,14 @@ struct SwitchNode : public StatementNode {
 	unique_ptr<ExpressionNode> expression_for_switch;
 	vector<unique_ptr<CaseNode>> cases;
 	unique_ptr<DefaultNode> default_case;
+
+	void visit(Visitor& v) override {
+		v.handle(*this);
+	}
+};
+
+struct NonAnalysisBlockNode : public StatementNode {
+	vector<unique_ptr<StatementNode>> commands;
 
 	void visit(Visitor& v) override {
 		v.handle(*this);
