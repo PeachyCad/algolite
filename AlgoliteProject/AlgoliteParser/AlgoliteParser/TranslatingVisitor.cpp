@@ -11,11 +11,12 @@
 
 bool in_for_translating = false;
 bool writing_mode = true;
+bool analysis_mode = true;
 stringstream analysing_program;
 
 int _expression_counter;
 
-void TranslatingVisitor::handle(ArgumentNode& n) { 
+void TranslatingVisitor::handle(ArgumentNode& n) {
 	if (writing_mode) {
 		analysing_program << n.type << " " << n.name;
 
@@ -33,7 +34,7 @@ void TranslatingVisitor::handle(ArgumentNode& n) {
 	}
 }
 
-void TranslatingVisitor::handle(FunctionDefinitionNode& n) { 
+void TranslatingVisitor::handle(FunctionDefinitionNode& n) {
 	if (writing_mode) {
 		analysing_program << n.type << " _" << n.name;
 
@@ -72,7 +73,7 @@ void TranslatingVisitor::handle(FunctionDefinitionNode& n) {
 		analysing_program << ";" << "\n";
 }
 
-void TranslatingVisitor::handle(ParenExpressionNode& n) { 
+void TranslatingVisitor::handle(ParenExpressionNode& n) {
 	if (writing_mode)
 		analysing_program << "(";
 	n.child->visit(*this);
@@ -80,10 +81,10 @@ void TranslatingVisitor::handle(ParenExpressionNode& n) {
 		analysing_program << ")";
 }
 
-void TranslatingVisitor::handle(BinaryOperationNode& n) { 
+void TranslatingVisitor::handle(BinaryOperationNode& n) {
 	int children_size = n.children.size();
 
-	_expression_counter += children_size - 1;	
+	_expression_counter += children_size - 1;
 
 	for (int i = 0; i < children_size; i++) {
 		n.children[i]->visit(*this);
@@ -92,7 +93,7 @@ void TranslatingVisitor::handle(BinaryOperationNode& n) {
 	}
 }
 
-void TranslatingVisitor::handle(UnaryOperationNode& n) { 
+void TranslatingVisitor::handle(UnaryOperationNode& n) {
 	if (writing_mode)
 		analysing_program << " " << n.operation << " ";
 	_expression_counter++;
@@ -100,17 +101,17 @@ void TranslatingVisitor::handle(UnaryOperationNode& n) {
 }
 
 
-void TranslatingVisitor::handle(IntegerLiteralNode& n) { 
+void TranslatingVisitor::handle(IntegerLiteralNode& n) {
 	if (writing_mode)
 		analysing_program << n.value;
 }
 
-void TranslatingVisitor::handle(DoubleLiteralNode& n) { 
+void TranslatingVisitor::handle(DoubleLiteralNode& n) {
 	if (writing_mode)
 		analysing_program << n.value;
 }
 
-void TranslatingVisitor::handle(BooleanLiteralNode& n) { 
+void TranslatingVisitor::handle(BooleanLiteralNode& n) {
 	if (writing_mode) {
 		if (n.value)
 			analysing_program << "true";
@@ -119,12 +120,12 @@ void TranslatingVisitor::handle(BooleanLiteralNode& n) {
 	}
 }
 
-void TranslatingVisitor::handle(StringLiteralNode& n) { 
+void TranslatingVisitor::handle(StringLiteralNode& n) {
 	if (writing_mode)
 		analysing_program << n.value;
 }
 
-void TranslatingVisitor::handle(VariableNode& n) { 
+void TranslatingVisitor::handle(VariableNode& n) {
 	if (writing_mode)
 		analysing_program << n.name;
 	for (const unique_ptr<ExpressionNode>& expression : n.index_expressions) {
@@ -136,7 +137,7 @@ void TranslatingVisitor::handle(VariableNode& n) {
 	}
 }
 
-void TranslatingVisitor::handle(IfNode& n) { 
+void TranslatingVisitor::handle(IfNode& n) {
 	_expression_counter = 0;
 	writing_mode = false;
 
@@ -145,10 +146,11 @@ void TranslatingVisitor::handle(IfNode& n) {
 	writing_mode = true;
 
 	analysing_program << "if " << "(";
-	analysing_program << "_counter += " << _expression_counter << ", ";
+	if (analysis_mode)
+		analysing_program << "_counter += " << _expression_counter << ", ";
 	n.condition->visit(*this);
 	analysing_program << ") ";
-	
+
 	if (dynamic_cast<BlockNode*>(n.command.get()) != nullptr) {
 		n.command->visit(*this);
 	}
@@ -160,7 +162,7 @@ void TranslatingVisitor::handle(IfNode& n) {
 
 	if (n.else_command != nullptr) {
 		analysing_program << "\n    " << "else ";
-		
+
 		if (dynamic_cast<BlockNode*>(n.command.get()) != nullptr) {
 			n.else_command->visit(*this);
 		}
@@ -172,7 +174,7 @@ void TranslatingVisitor::handle(IfNode& n) {
 	}
 }
 
-void TranslatingVisitor::handle(WhileNode& n) { 
+void TranslatingVisitor::handle(WhileNode& n) {
 	int condition_counter;
 	_expression_counter = 0;
 	writing_mode = false;
@@ -185,7 +187,7 @@ void TranslatingVisitor::handle(WhileNode& n) {
 
 	if (n.is_do_while) {
 		analysing_program << "do ";
-		
+
 		if (dynamic_cast<BlockNode*>(n.command.get()) != nullptr) {
 			n.command->visit(*this);
 		}
@@ -196,14 +198,16 @@ void TranslatingVisitor::handle(WhileNode& n) {
 		}
 
 		analysing_program << " while" << "(";
-		analysing_program << "_counter += " << condition_counter << ", ";
+		if (analysis_mode)
+			analysing_program << "_counter += " << condition_counter << ", ";
 		n.condition->visit(*this);
 		analysing_program << ");";
 	}
 
 	else {
 		analysing_program << "while" << "(";
-		analysing_program << "_counter += " << condition_counter << ", ";
+		if (analysis_mode)
+			analysing_program << "_counter += " << condition_counter << ", ";
 		n.condition->visit(*this);
 		analysing_program << ") ";
 
@@ -218,8 +222,8 @@ void TranslatingVisitor::handle(WhileNode& n) {
 	}
 }
 
-void TranslatingVisitor::handle(ForNode& n) { 
-	if (dynamic_cast<VariableDeclarationNode*>(n.initialization.get()) != nullptr) { 
+void TranslatingVisitor::handle(ForNode& n) {
+	if (dynamic_cast<VariableDeclarationNode*>(n.initialization.get()) != nullptr) {
 		_expression_counter = 0;
 		writing_mode = false;
 
@@ -227,9 +231,10 @@ void TranslatingVisitor::handle(ForNode& n) {
 
 		writing_mode = true;
 
-		analysing_program << "_counter += " << _expression_counter << ";\n";
+		if (analysis_mode)
+			analysing_program << "_counter += " << _expression_counter << ";\n";
 	}
-	
+
 	analysing_program << "for " << "(";
 	in_for_translating = true;
 
@@ -246,19 +251,20 @@ void TranslatingVisitor::handle(ForNode& n) {
 
 		writing_mode = true;
 
-		analysing_program << "_counter += " << _expression_counter << ", ";
+		if (analysis_mode)
+			analysing_program << "_counter += " << _expression_counter << ", ";
 		n.condition->visit(*this);
-		
+
 	}
 	analysing_program << "; ";
 
-	if (n.step != nullptr) 
+	if (n.step != nullptr)
 		n.step->visit(*this);
 
 	analysing_program << ") ";
 	in_for_translating = false;
 
-	
+
 	if (dynamic_cast<BlockNode*>(n.command.get()) != nullptr) {
 		n.command->visit(*this);
 	}
@@ -269,7 +275,20 @@ void TranslatingVisitor::handle(ForNode& n) {
 	}
 }
 
-void TranslatingVisitor::handle(CaseNode& n) { 
+void TranslatingVisitor::handle(DefaultNode& n) {
+	if (writing_mode)
+		analysing_program << "default: " << "\n";
+
+	for (const unique_ptr<StatementNode>& command : n.commands) {
+		if (writing_mode)
+			analysing_program << "    ";
+		command->visit(*this);
+		if (writing_mode)
+			analysing_program << "\n";
+	}
+}
+
+void TranslatingVisitor::handle(CaseNode& n) {
 	if (writing_mode)
 		analysing_program << "case ";
 	n.condition->visit(*this);
@@ -285,7 +304,7 @@ void TranslatingVisitor::handle(CaseNode& n) {
 	}
 }
 
-void TranslatingVisitor::handle(SwitchNode& n) { 
+void TranslatingVisitor::handle(SwitchNode& n) {
 	_expression_counter = 0;
 	writing_mode = false;
 
@@ -293,21 +312,43 @@ void TranslatingVisitor::handle(SwitchNode& n) {
 
 	writing_mode = true;
 
-	analysing_program << "_counter += " << _expression_counter << ";\n";
+	if (analysis_mode)
+		analysing_program << "_counter += " << _expression_counter << ";\n";
 
 	analysing_program << "switch" << "(";
 	n.expression_for_switch->visit(*this);
 	analysing_program << ") ";
 
 	analysing_program << "{ " << "\n";
+
 	for (const unique_ptr<CaseNode>& case_command : n.cases) {
 		analysing_program << "    ";
 		case_command->visit(*this);
 	}
+
+	if (n.default_case != nullptr) {
+		analysing_program << "    ";
+		n.default_case->visit(*this);
+	}
+
 	analysing_program << " }";
 }
 
-void TranslatingVisitor::handle(BlockNode& n) { 
+void TranslatingVisitor::handle(NonAnalysisBlockNode& n) {
+	analysis_mode = false;
+
+	for (const unique_ptr<StatementNode>& command : n.commands) {
+		if (writing_mode)
+			analysing_program << "    ";
+		command->visit(*this);
+		if (writing_mode)
+			analysing_program << "\n";
+	}
+
+	analysis_mode = true;
+}
+
+void TranslatingVisitor::handle(BlockNode& n) {
 	if (writing_mode)
 		analysing_program << "{" << "\n";
 
@@ -323,7 +364,7 @@ void TranslatingVisitor::handle(BlockNode& n) {
 		analysing_program << "    }";
 }
 
-void TranslatingVisitor::handle(FunctionCallNode& n) { 
+void TranslatingVisitor::handle(FunctionCallNode& n) {
 	if (writing_mode)
 		analysing_program << "_" << n.name << "(";
 
@@ -339,19 +380,19 @@ void TranslatingVisitor::handle(FunctionCallNode& n) {
 		analysing_program << ")";
 }
 
-void TranslatingVisitor::handle(FunctionCallAsStatementNode& n) { 
+void TranslatingVisitor::handle(FunctionCallAsStatementNode& n) {
 	_expression_counter = 0;
 
 	n.function_call->visit(*this);
 
-	if (writing_mode)
+	if (writing_mode && analysis_mode)
 		analysing_program << ", _counter += " << _expression_counter;
 
 	if (!in_for_translating && writing_mode)
 		analysing_program << ";";
 }
 
-void TranslatingVisitor::handle(CoutNode& n) { 
+void TranslatingVisitor::handle(CoutNode& n) {
 	_expression_counter = 0;
 
 	if (writing_mode)
@@ -362,14 +403,14 @@ void TranslatingVisitor::handle(CoutNode& n) {
 		expression->visit(*this);
 	}
 
-	if (writing_mode)
+	if (writing_mode && analysis_mode)
 		analysing_program << ", _counter += " << _expression_counter;
 
 	if (!in_for_translating && writing_mode)
 		analysing_program << ";";
 }
 
-void TranslatingVisitor::handle(IncDecNode& n) { 
+void TranslatingVisitor::handle(IncDecNode& n) {
 	_expression_counter = 0;
 
 	n.variable->visit(*this);
@@ -383,28 +424,28 @@ void TranslatingVisitor::handle(IncDecNode& n) {
 
 	_expression_counter++;
 
-	if (writing_mode)
+	if (writing_mode && analysis_mode)
 		analysing_program << ", _counter += " << _expression_counter;
 
 	if (!in_for_translating && writing_mode)
 		analysing_program << ";";
 }
 
-void TranslatingVisitor::handle(BreakNode& n) { 
+void TranslatingVisitor::handle(BreakNode& n) {
 	if (writing_mode)
 		analysing_program << "break";
 	if (!in_for_translating && writing_mode)
 		analysing_program << ";";
 }
 
-void TranslatingVisitor::handle(ContinueNode& n) { 
+void TranslatingVisitor::handle(ContinueNode& n) {
 	if (writing_mode)
 		analysing_program << "continue";
 	if (!in_for_translating && writing_mode)
 		analysing_program << ";";
 }
 
-void TranslatingVisitor::handle(ReturnNode& n) { 
+void TranslatingVisitor::handle(ReturnNode& n) {
 	_expression_counter = 0;
 	writing_mode = false;
 
@@ -412,7 +453,7 @@ void TranslatingVisitor::handle(ReturnNode& n) {
 
 	writing_mode = true;
 
-	if (!in_for_translating && writing_mode) {
+	if (!in_for_translating && writing_mode && analysis_mode) {
 		analysing_program << "_counter += " << _expression_counter << ";\n";
 	}
 
@@ -423,12 +464,12 @@ void TranslatingVisitor::handle(ReturnNode& n) {
 		analysing_program << ";";
 }
 
-void TranslatingVisitor::handle(VariableDeclarationNode& n) { 
+void TranslatingVisitor::handle(VariableDeclarationNode& n) {
 	_expression_counter = 0;
 
 	if (writing_mode)
 		analysing_program << n.variable_type << " ";
-		
+
 	int declarations_size = n.declarations.size();
 
 	for (int i = 0; i < declarations_size; i++) {
@@ -456,19 +497,20 @@ void TranslatingVisitor::handle(VariableDeclarationNode& n) {
 
 	if (!in_for_translating && writing_mode) {
 		analysing_program << ";\n";
-		analysing_program << "    _counter += " << _expression_counter << ";";
+		if (analysis_mode)
+			analysing_program << "    _counter += " << _expression_counter << ";";
 	}
 
 }
 
-void TranslatingVisitor::handle(AssignmentNode& n) { 
+void TranslatingVisitor::handle(AssignmentNode& n) {
 	_expression_counter = 0;
 
 	n.variable->visit(*this);
-	
+
 	if (writing_mode)
 		analysing_program << " " << n.operation << " ";
-	
+
 	n.value->visit(*this);
 
 	if (n.operation == "=")
@@ -476,14 +518,14 @@ void TranslatingVisitor::handle(AssignmentNode& n) {
 	else
 		_expression_counter += 2;
 
-	if (writing_mode)
+	if (writing_mode && analysis_mode)
 		analysing_program << ", _counter += " << _expression_counter;
 
 	if (!in_for_translating && writing_mode)
 		analysing_program << ";";
 }
 
-void TranslatingVisitor::handle(Program& n) { 
+void TranslatingVisitor::handle(Program& n) {
 	ifstream initialization_file("ProgramPartFiles/ProgramInitialization.txt");
 
 	if (initialization_file && writing_mode) {

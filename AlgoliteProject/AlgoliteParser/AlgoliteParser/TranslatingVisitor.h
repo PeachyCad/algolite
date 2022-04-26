@@ -15,8 +15,10 @@ struct TranslatingVisitor : Visitor {
 	virtual void handle(IfNode& n);
 	virtual void handle(WhileNode& n);
 	virtual void handle(ForNode& n);
+	virtual void handle(DefaultNode& n);
 	virtual void handle(CaseNode& n);
 	virtual void handle(SwitchNode& n);
+	virtual void handle(NonAnalysisBlockNode& n);
 	virtual void handle(BlockNode& n);
 	virtual void handle(FunctionCallNode& n);
 	virtual void handle(FunctionCallAsStatementNode& n);

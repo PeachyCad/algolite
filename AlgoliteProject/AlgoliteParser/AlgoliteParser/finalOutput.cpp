@@ -71,6 +71,68 @@ long long _factorial(int n) {
     _counter += 1;
 for (long long i = 2; _counter += 1, i <= n; i++, _counter += 1) {f *= i, _counter += 2;    }
     _counter += 0;
+switch(f) { 
+    case (5 * 10 - 3 / 2 + 1):
+    cout << "f is 5..." << 5 * 2 * 10 - 3 / 2 + 1 << "\n", _counter += 5;
+    break;
+    case 1:
+    cout << "f is 1" << "\n", _counter += 0;
+    break;
+    default: 
+    cout << "f is not 5 or 1" << "\n", _counter += 0;
+    break;
+    while(_counter += 0, false) {
+    int e = 5;
+    _counter += 1;
+    if (_counter += 1, e < 7) {e = 7, _counter += 1;    }
+        double a[ 100 ][ 100 ];
+
+    double b[ 100 ][ 100 ];
+
+    double c[ 100 ][ 100 ];
+
+    int i, j;
+
+    for (i = 0; i < par; i++) {for (j = 0; j < par; j++) {
+    a[ i ][ j ] = 1;
+    b[ i ][ j ] = 1;
+    c[ i ][ j ] = 0;
+    }    }
+    i = 4;
+    j = 0;
+    for (int v = 0; v < par; v++) {
+    a[ i ][ j ] = 2;
+    i -= 1;
+    j += 1;
+    }
+    i = 4;
+    j = 4;
+    for (int v = 0; v < par; v++) {
+    b[ i ][ j ] = 2;
+    i -= 1;
+    j -= 1;
+    }
+    a[ 2 ][ 4 ] = 3;
+    for (i = 0; i < par; i++) {
+    for (j = 0; j < par; j++) {cout << a[ i ][ j ] << " ";    }
+    cout << endl;
+    }
+    cout << endl << endl;
+    b[ 3 ][ 2 ] = 5;
+    for (i = 0; i < par; i++) {
+    for (j = 0; j < par; j++) {cout << b[ i ][ j ] << " ";    }
+    cout << endl;
+    }
+    cout << endl << endl;
+    for (i = 0; i < par; i++) {for (j = 0; j < par; j++) {for (int k = 0; k < par; k++) {c[ i ][ j ] += a[ i ][ k ] * b[ k ][ j ];    }    }    }
+    for (i = 0; i < par; i++) {
+    for (j = 0; j < par; j++) {cout << c[ i ][ j ] << " ";    }
+    cout << endl;
+    }
+
+    }
+ }
+    _counter += 0;
 return f;
 }
 
@@ -125,6 +187,7 @@ for (int k = 0; _counter += 1, k < par; k++, _counter += 1) {c[ i ][ j ] += a[ i
 }
 
 void _main() {
+    _factorial(4), _counter += 0;
     _matrixComputing(), _counter += 0;
 }
 
