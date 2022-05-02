@@ -59,7 +59,7 @@ enum TokenType {
 	Switch,
 	Default,
 	Case,
-	AnalysisDisable, //TODO
+	AnalysisDisable,
 	Cout,
 	LeftLeft,
 	RightRight,
