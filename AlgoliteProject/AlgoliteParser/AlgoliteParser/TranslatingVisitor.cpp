@@ -534,7 +534,10 @@ void TranslatingVisitor::handle(Program& n) {
 	}
 
 	if (writing_mode)
-		analysing_program << "long long" << " " << n.parameter_name << ", _counter;" << "\n\n";
+		analysing_program << "__thread long long _counter;" << "\n";
+		analysing_program << "__thread long long " << n.parameter_name << ";" << "\n";
+		analysing_program << "__thread int global_thread_number;" << "\n";
+		analysing_program << "vector<pair<long long, double>> func_vec(" << (n.parameter_max - n.parameter_min + n.parameter_step - 1) / n.parameter_step << ");\n\n";
 
 	for (const unique_ptr<FunctionDefinitionNode>& func_definition : n.functions) {
 		func_definition->visit(*this);
@@ -543,24 +546,28 @@ void TranslatingVisitor::handle(Program& n) {
 	}
 
 	if (writing_mode) {
-		analysing_program << "vector<pair<long long, double>> createComplexityFunc() {" << "\n";
-		analysing_program << "    vector<pair<long long, double>> result_func;" << "\n";
-		analysing_program << " for (" << n.parameter_name << " = " << n.parameter_min << "; " << n.parameter_name << " < " << n.parameter_max << "; " << n.parameter_name << " += " << n.parameter_step << ") {" << "\n";
-		analysing_program << "	      _counter = 0;" << "\n";
-		analysing_program << "	      _main();" << "\n";
-		analysing_program << "        result_func.push_back(make_pair(" << n.parameter_name << ", _counter)); " << "\n";
-		analysing_program << "	  }" << "\n";
-		analysing_program << "	  return result_func;" << "\n";
+		analysing_program << "void fillComplexityFuncInThread(int thread_number) {" << "\n";
+		analysing_program << "global_thread_number = thread_number;" << "\n";
+		analysing_program << "int index = 0;" << "\n";
+		analysing_program << "for (" << n.parameter_name << " = " << n.parameter_min << " + " << n.parameter_step << " * "  << "global_thread_number" << "; " << n.parameter_name << " < " << n.parameter_max << "; " << n.parameter_name << " += " << n.parameter_step << " * 4) {" << "\n";
+		analysing_program << "_counter = 0; " << "\n";
+		analysing_program << "_main(); " << "\n";
+		analysing_program << "func_vec[global_thread_number + index] = make_pair(" << n.parameter_name << ", _counter); " << "\n";
+		analysing_program << "index += 4;" << "\n";
+		analysing_program << "}" << "\n";
 		analysing_program << "}" << "\n\n";
+	}
 
-		analysing_program << "vector<pair<long long, double>> createLogarithmicComplexityFunc() {" << "\n";
-		analysing_program << "    vector<pair<long long, double>> result_func;" << "\n";
-		analysing_program << " for (" << n.parameter_name << " = " << n.parameter_min << "; " << n.parameter_name << " < " << n.parameter_max << "; " << n.parameter_name << " += " << n.parameter_step << ") {" << "\n";
-		analysing_program << "	      _counter = 0;" << "\n";
-		analysing_program << "	      _main();" << "\n";
-		analysing_program << "        result_func.push_back(make_pair(" << n.parameter_name << ", _counter / log10(" << n.parameter_name << "))); " << "\n";
-		analysing_program << "	  }" << "\n";
-		analysing_program << "	  return result_func;" << "\n";
+	if (writing_mode) {
+		analysing_program << "void createComplexityFunc() {" << "\n";
+		analysing_program << "thread t0(fillComplexityFuncInThread, 0);" << "\n";
+		analysing_program << "thread t1(fillComplexityFuncInThread, 1);" << "\n";
+		analysing_program << "thread t2(fillComplexityFuncInThread, 2);" << "\n";
+		analysing_program << "thread t3(fillComplexityFuncInThread, 3);" << "\n";
+		analysing_program << "t0.join();" << "\n";
+		analysing_program << "t1.join();" << "\n";
+		analysing_program << "t2.join();" << "\n";
+		analysing_program << "t3.join();" << "\n";
 		analysing_program << "}" << "\n\n";
 	}
 

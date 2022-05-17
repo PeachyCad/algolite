@@ -1202,8 +1202,8 @@ int main() {
 	TranslatingVisitor visitor;
 	current_program.visit(visitor);
 
-	cout << SUCCESS_COLORIZED_COUT << "Трансляция прошла успешно" << STOP_COLORIZED_COUT << "\n";
-
-	system("g++ -O3 -o output_program.exe finalOutput.cpp pbPlots.cpp supportLib.cpp -lm");
+	cout << SUCCESS_COLORIZED_COUT << "Трансляция прошла успешно" << STOP_COLORIZED_COUT << "\n\n";
+	system("uncrustify -c msvc.cfg -f finalOutput.cpp --no-backup -o finalOutput.cpp");
+	system("g++ -O3 -std=c++0x -o output_program.exe finalOutput.cpp pbPlots.cpp supportLib.cpp -lm -D _WIN32_WINNT=0x0A00");
 	system("start output_program.exe");
 }

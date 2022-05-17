@@ -1,10 +1,9 @@
 int main() {
-    vector<pair<long long, double>> func;
-    findComplexityClass(func);
-
+    findComplexityClass();
+    
     RGBABitmapImageReference* imageReference = CreateRGBABitmapImageReference();
 
-    for (auto points_pair = func.begin(); points_pair != func.end(); points_pair++) {
+    for (auto points_pair = func_vec.begin(); points_pair != func_vec.end(); points_pair++) {
         xs.push_back((*points_pair).first);
         ys.push_back((*points_pair).second);
     }

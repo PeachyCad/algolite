@@ -1,18 +1,13 @@
 ﻿  AlgoliteParser.cpp
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\Nodes.h(55,22): error C2061: синтаксическая ошибка: идентификатор "NonAnalysisBlockNode"
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\Nodes.h(229,1): error C2664: "void Visitor::handle(ArgumentNode &)": невозможно преобразовать аргумент 1 из "NonAnalysisBlockNode" в "ArgumentNode &"
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\Nodes.h(39,15): message : см. объявление "Visitor::handle"
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(26,14): warning C4244: инициализация: преобразование "std::streamoff" в "size_t", возможна потеря данных
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(689,40): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1162,34): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1167,34): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1172,35): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1196,21): error C2259: "TranslatingVisitor": невозможно создать экземпляр абстрактного класса
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\TranslatingVisitor.h(4): message : см. объявление "TranslatingVisitor"
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1196,21): message : из-за следующих членов:
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1196,21): message : void Visitor::handle(void): абстрактный
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\Nodes.h(55): message : см. объявление "Visitor::handle"
+D:\Program Files\source\AlgoliteProject\Code Stages\v2.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(26,14): warning C4244: инициализация: преобразование "std::streamoff" в "size_t", возможна потеря данных
+D:\Program Files\source\AlgoliteProject\Code Stages\v2.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(690,40): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
+D:\Program Files\source\AlgoliteProject\Code Stages\v2.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1168,34): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
+D:\Program Files\source\AlgoliteProject\Code Stages\v2.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1173,34): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
+D:\Program Files\source\AlgoliteProject\Code Stages\v2.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1178,35): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
   TranslatingVisitor.cpp
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\Nodes.h(55,22): error C2061: синтаксическая ошибка: идентификатор "NonAnalysisBlockNode"
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\Nodes.h(229,1): error C2664: "void Visitor::handle(ArgumentNode &)": невозможно преобразовать аргумент 1 из "NonAnalysisBlockNode" в "ArgumentNode &"
-D:\Program Files\source\AlgoliteProject\AlgoliteParser\AlgoliteParser\Nodes.h(39,15): message : см. объявление "Visitor::handle"
+  Создание кода
+  1285 of 1300 functions (98.8%) were compiled, the rest were copied from previous compilation.
+    63 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  AlgoliteParser.vcxproj -> D:\Program Files\source\AlgoliteProject\Code Stages\v2.0\AlgoliteParser\Release\AlgoliteParser.exe
