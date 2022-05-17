@@ -1,5 +1,6 @@
 #include "pbPlots.hpp"
 #include "supportLib.hpp"
+#include "mingw.thread.h"
 #include <vector>
 #include <cmath>
 #include <iostream>
@@ -8,16 +9,18 @@
 #define LLONG_MAX numeric_limits<long long>().max()
 
 using namespace std;
+#include "matrixOperations.cpp"
 
 vector<double> xs;
 vector<double> ys;
 vector<double> xs1;
 vector<double> ys1;
 string complexity_class;
+string complete_complexity_function;
 const wchar_t* graph_title;
 wstring w;
 
-pair<double, double> linearRegression(vector<pair<long long, double>> func) {
+pair<double, double> linearRegression(vector<pair<long long, double>> func, bool log_first_var, bool log_second_var) {
     double error = 0;
     long long n = func.size();
     double a;
@@ -30,8 +33,8 @@ pair<double, double> linearRegression(vector<pair<long long, double>> func) {
 
     for (long long i = 0; i < n; i++) {
 
-        double v = log10(func[i].first);
-        double u = log10(func[i].second);
+        double v = log_first_var ? log10(func[i].first) : func[i].first;
+        double u = log_second_var ? log10(func[i].second) : func[i].second;
 
         v_sum += v;
         u_sum += u;
@@ -52,6 +55,37 @@ pair<double, double> linearRegression(vector<pair<long long, double>> func) {
 
     error /= n;
     return make_pair(error, b);
+}
+
+Vector polynomialRegression(int polynomial_degree, vector<pair<long long, double>> func) {
+    createXY(polynomial_degree, func);
+    Matrix left_matrix(polynomial_degree + 1);
+    Vector right_vector(polynomial_degree + 1);
+    Vector result(polynomial_degree + 1);
+
+    for (int i = 0; i < left_matrix.size(); i++) {
+        Vector current_vector(polynomial_degree + 1);
+            left_matrix[i] = current_vector;
+    }
+
+    multiplyMTM(x_matrix, left_matrix);
+    multiplyMTV(x_matrix, y_vector, right_vector);
+
+    getGaussianSolution(left_matrix, right_vector, result);
+
+    return result;
+}
+
+string polynomialComplexityFunction(int polynomial_degree, vector<pair<long long, double>> func) {
+    vector<double> resultCoefficients = polynomialRegression(polynomial_degree, func);
+    string result = "";
+
+    for (int i = polynomial_degree; i > 0; i--) {
+        result += to_string(resultCoefficients[i]) + " * x ^ " + to_string(i) + " + ";
+    }
+    result += to_string(resultCoefficients[0]);
+
+    return result;
 }
 
 void deleteOverflowing(vector<pair<long long, double>>& func) {

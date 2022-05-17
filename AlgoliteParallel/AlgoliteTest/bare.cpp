@@ -33,8 +33,10 @@ int main()
   int a = 0;
   int b = 0;
   globalValue = 3;
+  const auto processor_count = hardware_concurrency();
+  cout << "cores: " << processor_count << "\n";
   cout << "Global value in main: " << globalValue << "\n";
-  cout << "a = " << a << " b = " << b << "\n";
+  //cout << "a = " << a << " b = " << b << "\n";
   system("pause");
   //thread th(helloWorld);
   //thread tg(goodbyeWorld);
