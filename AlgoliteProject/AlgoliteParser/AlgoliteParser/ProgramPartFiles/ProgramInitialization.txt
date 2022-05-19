@@ -6,6 +6,7 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <sstream>
 #define LLONG_MAX numeric_limits<long long>().max()
 
 using namespace std;
@@ -78,14 +79,16 @@ Vector polynomialRegression(int polynomial_degree, vector<pair<long long, double
 
 string polynomialComplexityFunction(int polynomial_degree, vector<pair<long long, double>> func) {
     vector<double> resultCoefficients = polynomialRegression(polynomial_degree, func);
-    string result = "";
+    stringstream result;
+
+    result.precision(2);
 
     for (int i = polynomial_degree; i > 0; i--) {
-        result += to_string(resultCoefficients[i]) + " * x ^ " + to_string(i) + " + ";
+        result << resultCoefficients[i] << " * x ^ " << i << " + ";
     }
-    result += to_string(resultCoefficients[0]);
+    result << resultCoefficients[0];
 
-    return result;
+    return result.str();
 }
 
 void deleteOverflowing(vector<pair<long long, double>>& func) {
