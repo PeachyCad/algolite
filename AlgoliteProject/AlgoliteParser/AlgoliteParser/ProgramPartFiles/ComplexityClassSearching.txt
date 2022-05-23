@@ -49,8 +49,6 @@ void findComplexityClass() {
         if (current_degree != last_degree)
             polynomial_degree_changes++;
         last_degree = current_degree;
-
-        cout << "error: " << last_error << " k: " << last_degree << endl;
     }
 
     polynomial_error = last_error;
@@ -58,8 +56,6 @@ void findComplexityClass() {
 
     last_error = INFINITY;
     last_degree = -1;
-
-    system("pause");
 
     deleteOverflowing(logarithmic_func);
 
@@ -81,8 +77,6 @@ void findComplexityClass() {
         if (current_degree != last_degree)
             logarithmic_degree_changes++;
         last_degree = current_degree;
-
-        cout << "error: " << last_error << " k: " << last_degree << endl;
     }
 
     logarithmic_error = last_error;
@@ -90,8 +84,6 @@ void findComplexityClass() {
 
     last_error = INFINITY;
     last_degree = -1;
-
-    system("pause");
 
     deleteOverflowing(exponential_func);
 
@@ -113,22 +105,16 @@ void findComplexityClass() {
         if (current_degree != last_degree)
             exponential_degree_changes++;
         last_degree = current_degree;
-
-        cout << "error: " << last_error << " k: " << last_degree << endl;
     }
 
     exponential_error = last_error;
     exponential_degree = last_degree;
-
-    system("pause");
 
     bool class_is_unknown = false;
 
     complexity_class = "O(";
 
     if (polynomial_error < logarithmic_error && polynomial_error < exponential_error) {
-        cout << "P ERROR: " << polynomial_error << endl;
-        cout << polynomial_error_increasings << " " << polynomial_degree_changes << endl;
         if ((polynomial_error_increasings <= PARTS_NUMBER / 2 || polynomial_error < 1e-04) && polynomial_degree_changes < 5) {
             if (polynomial_degree != 0) {
                 complexity_class += "x";
@@ -145,8 +131,6 @@ void findComplexityClass() {
             class_is_unknown = true;
     }
     else if (logarithmic_error < polynomial_error && logarithmic_error < exponential_error) {
-        cout << "L ERROR: " << logarithmic_error << endl;
-        cout << logarithmic_error_increasings << " " << logarithmic_degree_changes << endl;
         if ((logarithmic_error_increasings <= PARTS_NUMBER / 2 || logarithmic_error < 1e-04) && logarithmic_degree_changes < 5) {
             if (logarithmic_degree != 0) {
                 complexity_class += "x";
@@ -162,8 +146,6 @@ void findComplexityClass() {
             class_is_unknown = true;
     }
     else if (exponential_error < polynomial_error && exponential_error < logarithmic_error) {
-        cout << "E ERROR: " << exponential_error << endl;
-        cout << exponential_error_increasings << " " << exponential_degree_changes << endl;
         if ((exponential_error_increasings <= PARTS_NUMBER / 2 || exponential_error < 1e-04) && exponential_degree_changes < 5) {
             if (exponential_degree != 0) {
                 complexity_class += "e^";
@@ -182,8 +164,6 @@ void findComplexityClass() {
 
     if (class_is_unknown)
         complexity_class = "Unknown";
-
-    system("pause");
 
     w = wstring(complexity_class.begin(), complexity_class.end());
     graph_title = w.c_str();
