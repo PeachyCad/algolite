@@ -49,7 +49,7 @@ void findComplexityClass() {
         if (current_degree != last_degree)
             polynomial_degree_changes++;
         last_degree = current_degree;
-    }
+    }  
 
     polynomial_error = last_error;
     polynomial_degree = last_degree;
@@ -76,7 +76,7 @@ void findComplexityClass() {
 
         if (current_degree != last_degree)
             logarithmic_degree_changes++;
-        last_degree = current_degree;
+        last_degree = current_degree;   
     }
 
     logarithmic_error = last_error;
@@ -145,7 +145,7 @@ void findComplexityClass() {
         else
             class_is_unknown = true;
     }
-    else if (exponential_error < polynomial_error && exponential_error < logarithmic_error) {
+    else if (exponential_error <= polynomial_error && exponential_error <= logarithmic_error) {
         if ((exponential_error_increasings <= PARTS_NUMBER / 2 || exponential_error < 1e-04) && exponential_degree_changes < 5) {
             if (exponential_degree != 0) {
                 complexity_class += "e^";
@@ -160,6 +160,9 @@ void findComplexityClass() {
         else
             class_is_unknown = true;
     }
+    else
+        class_is_unknown = true;
+
     complexity_class += ")" + complete_complexity_function;
 
     if (class_is_unknown)
@@ -167,4 +170,5 @@ void findComplexityClass() {
 
     w = wstring(complexity_class.begin(), complexity_class.end());
     graph_title = w.c_str();
+
 }

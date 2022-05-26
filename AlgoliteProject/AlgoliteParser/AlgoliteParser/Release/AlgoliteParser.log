@@ -1,13 +1,1 @@
-﻿  AlgoliteParser.cpp
-D:\Program Files\source\AlgoliteProject\Code Stages\v2.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(26,14): warning C4244: инициализация: преобразование "std::streamoff" в "size_t", возможна потеря данных
-D:\Program Files\source\AlgoliteProject\Code Stages\v2.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(690,40): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
-D:\Program Files\source\AlgoliteProject\Code Stages\v2.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1168,34): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
-D:\Program Files\source\AlgoliteProject\Code Stages\v2.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1173,34): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
-D:\Program Files\source\AlgoliteProject\Code Stages\v2.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1178,35): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
-  TranslatingVisitor.cpp
-  Создание кода
-  1285 of 1300 functions (98.8%) were compiled, the rest were copied from previous compilation.
-    63 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
-  Создание кода завершено
-  AlgoliteParser.vcxproj -> D:\Program Files\source\AlgoliteProject\Code Stages\v2.0\AlgoliteParser\Release\AlgoliteParser.exe
+﻿  AlgoliteParser.vcxproj -> D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\Release\AlgoliteParser.exe

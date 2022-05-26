@@ -1,0 +1,6 @@
+﻿  AlgoliteParser.cpp
+D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(690,40): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
+D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1168,34): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
+D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1173,34): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
+D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1178,35): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
+  AlgoliteParser.vcxproj -> D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\x64\Debug\AlgoliteParser.exe

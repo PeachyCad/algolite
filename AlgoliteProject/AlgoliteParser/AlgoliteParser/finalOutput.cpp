@@ -6,6 +6,8 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <sstream>
+#include <chrono>
 #define LLONG_MAX numeric_limits<long long>().max()
 
 using namespace std;
@@ -78,14 +80,16 @@ Vector polynomialRegression(int polynomial_degree, vector<pair<long long, double
 
 string polynomialComplexityFunction(int polynomial_degree, vector<pair<long long, double> > func) {
 	vector<double> resultCoefficients = polynomialRegression(polynomial_degree, func);
-	string result = "";
+	stringstream result;
+
+	result.precision(2);
 
 	for (int i = polynomial_degree; i > 0; i--) {
-		result += to_string(resultCoefficients[i]) + " * x ^ " + to_string(i) + " + ";
+		result << resultCoefficients[i] << " * x ^ " << i << " + ";
 	}
-	result += to_string(resultCoefficients[0]);
+	result << resultCoefficients[0];
 
-	return result;
+	return result.str();
 }
 
 void deleteOverflowing(vector<pair<long long, double> >& func) {
@@ -100,7 +104,7 @@ void deleteOverflowing(vector<pair<long long, double> >& func) {
 __thread long long _counter;
 __thread long long par;
 __thread int global_thread_number;
-vector<pair<long long, double> > func_vec(96);
+vector<pair<long long, double> > func_vec(6);
 
 long long _factorial(long long n) {
 	long long f = 1;
@@ -1187,13 +1191,13 @@ void _main() {
 	int a = 5;
 
 
-	_binarySearch(par, 1500), _counter += 0;
+	_r_fibonacci(par), _counter += 0;
 }
 
 void fillComplexityFuncInThread(int thread_number) {
 	global_thread_number = thread_number;
 	int index = 0;
-	for (par = 4 + 1 * global_thread_number; par < 100; par += 1 * 4) {
+	for (par = 4 + 1 * global_thread_number; par < 10; par += 1 * 4) {
 		_counter = 0;
 		_main();
 		func_vec[global_thread_number + index] = make_pair(par, _counter);
@@ -1263,8 +1267,6 @@ void findComplexityClass() {
 		if (current_degree != last_degree)
 			polynomial_degree_changes++;
 		last_degree = current_degree;
-
-		cout << "error: " << last_error << " k: " << last_degree << endl;
 	}
 
 	polynomial_error = last_error;
@@ -1272,8 +1274,6 @@ void findComplexityClass() {
 
 	last_error = INFINITY;
 	last_degree = -1;
-
-	system("pause");
 
 	deleteOverflowing(logarithmic_func);
 
@@ -1295,8 +1295,6 @@ void findComplexityClass() {
 		if (current_degree != last_degree)
 			logarithmic_degree_changes++;
 		last_degree = current_degree;
-
-		cout << "error: " << last_error << " k: " << last_degree << endl;
 	}
 
 	logarithmic_error = last_error;
@@ -1304,8 +1302,6 @@ void findComplexityClass() {
 
 	last_error = INFINITY;
 	last_degree = -1;
-
-	system("pause");
 
 	deleteOverflowing(exponential_func);
 
@@ -1327,22 +1323,16 @@ void findComplexityClass() {
 		if (current_degree != last_degree)
 			exponential_degree_changes++;
 		last_degree = current_degree;
-
-		cout << "error: " << last_error << " k: " << last_degree << endl;
 	}
 
 	exponential_error = last_error;
 	exponential_degree = last_degree;
-
-	system("pause");
 
 	bool class_is_unknown = false;
 
 	complexity_class = "O(";
 
 	if (polynomial_error < logarithmic_error && polynomial_error < exponential_error) {
-		cout << "P ERROR: " << polynomial_error << endl;
-		cout << polynomial_error_increasings << " " << polynomial_degree_changes << endl;
 		if ((polynomial_error_increasings <= PARTS_NUMBER / 2 || polynomial_error < 1e-04) && polynomial_degree_changes < 5) {
 			if (polynomial_degree != 0) {
 				complexity_class += "x";
@@ -1359,8 +1349,6 @@ void findComplexityClass() {
 			class_is_unknown = true;
 	}
 	else if (logarithmic_error < polynomial_error && logarithmic_error < exponential_error) {
-		cout << "L ERROR: " << logarithmic_error << endl;
-		cout << logarithmic_error_increasings << " " << logarithmic_degree_changes << endl;
 		if ((logarithmic_error_increasings <= PARTS_NUMBER / 2 || logarithmic_error < 1e-04) && logarithmic_degree_changes < 5) {
 			if (logarithmic_degree != 0) {
 				complexity_class += "x";
@@ -1375,9 +1363,7 @@ void findComplexityClass() {
 		else
 			class_is_unknown = true;
 	}
-	else if (exponential_error < polynomial_error && exponential_error < logarithmic_error) {
-		cout << "E ERROR: " << exponential_error << endl;
-		cout << exponential_error_increasings << " " << exponential_degree_changes << endl;
+	else if (exponential_error <= polynomial_error && exponential_error <= logarithmic_error) {
 		if ((exponential_error_increasings <= PARTS_NUMBER / 2 || exponential_error < 1e-04) && exponential_degree_changes < 5) {
 			if (exponential_degree != 0) {
 				complexity_class += "e^";
@@ -1392,15 +1378,17 @@ void findComplexityClass() {
 		else
 			class_is_unknown = true;
 	}
+	else
+		class_is_unknown = true;
+
 	complexity_class += ")" + complete_complexity_function;
 
 	if (class_is_unknown)
 		complexity_class = "Unknown";
 
-	system("pause");
-
 	w = wstring(complexity_class.begin(), complexity_class.end());
 	graph_title = w.c_str();
+
 }
 int main() {
 	findComplexityClass();

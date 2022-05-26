@@ -1,0 +1,11 @@
+﻿  TranslatingVisitor.cpp
+D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\TranslatingVisitor.cpp(44,41): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\TranslatingVisitor.cpp(85,39): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\TranslatingVisitor.cpp(371,62): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\TranslatingVisitor.cpp(473,47): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  Создание кода
+  0 of 1300 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  AlgoliteParser.vcxproj -> D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\x64\Release\AlgoliteParser.exe

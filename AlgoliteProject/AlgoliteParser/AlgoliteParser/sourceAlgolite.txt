@@ -1,5 +1,4 @@
-
-parameter par(4, 100, 1);
+parameter par(4, 10, 1);
 
 long long factorial(long long n) {
 
@@ -86,6 +85,6 @@ void matrixComputing() {
 
 void main() {
 	# ANALYSIS_DISABLE # { int a = 5; }
-	binarySearch(par, 1500);
+	r_fibonacci(par);
 }
 
