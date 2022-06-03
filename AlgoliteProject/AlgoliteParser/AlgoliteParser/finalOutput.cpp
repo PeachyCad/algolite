@@ -7,7 +7,6 @@
 #include <limits>
 #include <string>
 #include <sstream>
-#include <chrono>
 #define LLONG_MAX numeric_limits<long long>().max()
 
 using namespace std;
@@ -104,7 +103,7 @@ void deleteOverflowing(vector<pair<long long, double> >& func) {
 __thread long long _counter;
 __thread long long par;
 __thread int global_thread_number;
-vector<pair<long long, double> > func_vec(6);
+vector<pair<long long, double> > func_vec(96);
 
 long long _factorial(long long n) {
 	long long f = 1;
@@ -1191,13 +1190,13 @@ void _main() {
 	int a = 5;
 
 
-	_r_fibonacci(par), _counter += 0;
+	_matrixComputing(), _counter += 0;
 }
 
 void fillComplexityFuncInThread(int thread_number) {
 	global_thread_number = thread_number;
 	int index = 0;
-	for (par = 4 + 1 * global_thread_number; par < 10; par += 1 * 4) {
+	for (par = 4 + 1 * global_thread_number; par < 100; par += 1 * 4) {
 		_counter = 0;
 		_main();
 		func_vec[global_thread_number + index] = make_pair(par, _counter);

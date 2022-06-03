@@ -3,4 +3,10 @@ D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\Algolite
 D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1168,34): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
 D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1173,34): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
 D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\AlgoliteParser.cpp(1178,35): warning C4244: =: преобразование "double" в "__int64", возможна потеря данных
+  TranslatingVisitor.cpp
+D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\TranslatingVisitor.cpp(44,41): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\TranslatingVisitor.cpp(85,39): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\TranslatingVisitor.cpp(371,62): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\AlgoliteParser\TranslatingVisitor.cpp(473,47): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  Создание кода...
   AlgoliteParser.vcxproj -> D:\Program Files\source\AlgoliteProject\Code Stages\v3.0\AlgoliteParser\x64\Debug\AlgoliteParser.exe
