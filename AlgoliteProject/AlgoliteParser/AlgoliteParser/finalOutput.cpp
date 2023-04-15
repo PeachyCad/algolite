@@ -114,6 +114,13 @@ long long _factorial(long long n) {
 	return f;
 }
 
+long long _everything() {
+	long long a = 42;
+	_counter += 1;
+	_counter += 0;
+	return a;
+}
+
 long long _r_fibonacci(int n) {
 	if (_counter += 1, n <= 1) {_counter += 0;
 		                    return n;    }

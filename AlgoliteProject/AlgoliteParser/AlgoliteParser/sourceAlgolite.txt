@@ -9,6 +9,11 @@ long long factorial(long long n) {
     return f;
 }
 
+long long everything() {
+    long long a = 42;
+    return a;
+}
+
 long long r_fibonacci(int n) {
 
    if (n <= 1)
