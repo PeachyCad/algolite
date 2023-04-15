@@ -1,0 +1,102 @@
+#include "pbPlots.hpp"
+#include "supportLib.hpp"
+#include "mingw.thread.h"
+#include <vector>
+#include <cmath>
+#include <iostream>
+#include <limits>
+#include <string>
+#include <sstream>
+#define LLONG_MAX numeric_limits<long long>().max()
+
+using namespace std;
+#include "matrixOperations.cpp"
+
+vector<double> xs;
+vector<double> ys;
+vector<double> xs1;
+vector<double> ys1;
+string complexity_class;
+string complete_complexity_function;
+const wchar_t* graph_title;
+wstring w;
+
+pair<double, double> linearRegression(vector<pair<long long, double>> func, bool log_first_var, bool log_second_var) {
+    double error = 0;
+    long long n = func.size();
+    double a;
+    double b;
+
+    double v_sum = 0;
+    double u_sum = 0;
+    double vu_sum = 0;
+    double vv_sum = 0;
+
+    for (long long i = 0; i < n; i++) {
+
+        double v = log_first_var ? log10(func[i].first) : func[i].first;
+        double u = log_second_var ? log10(func[i].second) : func[i].second;
+
+        v_sum += v;
+        u_sum += u;
+        vu_sum += v * u;
+        vv_sum += v * v;
+    }
+
+    b = (n * vu_sum - v_sum * u_sum) / (n * vv_sum - v_sum * v_sum);
+    a = (u_sum - b * v_sum) / n;
+
+    for (long long i = 0; i < n; i++) {
+        double v = log10(func[i].first);
+        double u = log10(func[i].second);
+
+        double estimated_u = a + b * v;
+        error += (estimated_u - u) * (estimated_u - u);
+    }
+
+    error /= n;
+    return make_pair(error, b);
+}
+
+Vector polynomialRegression(int polynomial_degree, vector<pair<long long, double>> func) {
+    createXY(polynomial_degree, func);
+    Matrix left_matrix(polynomial_degree + 1);
+    Vector right_vector(polynomial_degree + 1);
+    Vector result(polynomial_degree + 1);
+
+    for (int i = 0; i < left_matrix.size(); i++) {
+        Vector current_vector(polynomial_degree + 1);
+            left_matrix[i] = current_vector;
+    }
+
+    multiplyMTM(x_matrix, left_matrix);
+    multiplyMTV(x_matrix, y_vector, right_vector);
+
+    getGaussianSolution(left_matrix, right_vector, result);
+
+    return result;
+}
+
+string polynomialComplexityFunction(int polynomial_degree, vector<pair<long long, double>> func) {
+    vector<double> resultCoefficients = polynomialRegression(polynomial_degree, func);
+    stringstream result;
+
+    result.precision(2);
+
+    for (int i = polynomial_degree; i > 0; i--) {
+        result << resultCoefficients[i] << " * x ^ " << i << " + ";
+    }
+    result << resultCoefficients[0];
+
+    return result.str();
+}
+
+void deleteOverflowing(vector<pair<long long, double>>& func) {
+    for (auto points_pair = func.begin(); points_pair != func.end(); points_pair++) {
+        if ((*points_pair).second > 0.6 * LLONG_MAX || (*points_pair).second < 0.0) {
+            func.erase(points_pair, func.end());
+            break;
+        }
+    }
+}
+

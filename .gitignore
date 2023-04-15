@@ -1,4 +1,9 @@
-/AlgoliteProject/AlgoliteParser/Debug
-/AlgoliteProject/AlgoliteParser/Release
+/AlgoliteProject/AlgoliteTranspiler/Debug/
+/AlgoliteProject/AlgoliteTranspiler/Release/
+/AlgoliteProject/AlgoliteTranspiler/x64/
+/AlgoliteProject/AlgoliteTranspiler/AlgoliteTranspiler/Debug/
+/AlgoliteProject/AlgoliteTranspiler/AlgoliteTranspiler/Release/
+/AlgoliteProject/AlgoliteTranspiler/AlgoliteTranspiler/x64/
 *.sln
+*.vcxproj*
 /.vs
