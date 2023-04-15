@@ -6,4 +6,4 @@
 /AlgoliteProject/AlgoliteTranspiler/AlgoliteTranspiler/x64/
 *.sln
 *.vcxproj*
-/.vs
+/AlgoliteProject/AlgoliteTranspiler/.vs/

@@ -1,7 +1,5 @@
 parameter par(4, 100, 1);
 
-void nothing() {}
-
 long long factorial(long long n) {
 
     long long f = 1;
