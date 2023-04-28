@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -107,7 +107,6 @@ unique_ptr<StatementNode> command();
 void error(string text_error) {
 	cout << ERROR_COLORIZED_COUT << "Line " << prev_symbol_line << ", symbol " << prev_symbol_pos << ": ";
 	cout << text_error << STOP_COLORIZED_COUT << "\n";
-	cout << "Was captured: " << symbol << "\n";
 	system("pause");
 	exit(1);
 }
@@ -291,44 +290,44 @@ void accept(TokenType expected) {
 	if (symbol != expected) {
 		string str = string(1, (char)expected);
 		switch (expected) {
-			case NewLine: str = "new line"; break;
-			case EndOfFile: str = "end of file"; break;
-			case Parameter: str = "parameter"; break;
-			case If: str = "if"; break;
-			case Else: str = "else"; break;
-			case For: str = "for"; break;
-			case While: str = "while"; break;
-			case Do: str = "do"; break;
-			case Pragma: str = "#"; break;
-			case AnalysisDisable: str = "ANALYSIS_DISABLE"; break;
-			case Switch: str = "switch"; break;
-			case Case: str = "case"; break;
-			case Cout: str = "cout"; break;
-			case LeftLeft: str = "<<"; break;
-			case RightRight: str = ">>"; break;
-			case And: str = "&&"; break;
-			case Or: str = "||"; break;
-			case LessEq: str = "<="; break;
-			case GreaterEq: str = ">="; break;
-			case PlusEq: str = "+="; break;
-			case MinusEq: str = "-="; break;
-			case MultEq: str = "*="; break;
-			case DivEq: str = "/="; break;
-			case ModEq: str = "%="; break;
-			case NotEq: str = "!="; break;
-			case EqualsEq: str = "=="; break;
-			case Inc: str = "++"; break;
-			case Dec: str = "--"; break;
-			case Break: str = "break"; break;
-			case Continue: str = "continue"; break;
-			case Return: str = "return"; break;
-			case Void: str = "void"; break;
-			case Int: str = "int"; break;
-			case Long: str = "long "; break;
-			case Double: str = "double"; break;
-			case Bool: str = "bool"; break;
-			case Ident: str = "identifier"; break;
-			case Number: str = "number"; break;
+		case NewLine: str = "new line"; break;
+		case EndOfFile: str = "end of file"; break;
+		case Parameter: str = "parameter"; break;
+		case If: str = "if"; break;
+		case Else: str = "else"; break;
+		case For: str = "for"; break;
+		case While: str = "while"; break;
+		case Do: str = "do"; break;
+		case Pragma: str = "#"; break;
+		case AnalysisDisable: str = "ANALYSIS_DISABLE"; break;
+		case Switch: str = "switch"; break;
+		case Case: str = "case"; break;
+		case Cout: str = "cout"; break;
+		case LeftLeft: str = "<<"; break;
+		case RightRight: str = ">>"; break;
+		case And: str = "&&"; break;
+		case Or: str = "||"; break;
+		case LessEq: str = "<="; break;
+		case GreaterEq: str = ">="; break;
+		case PlusEq: str = "+="; break;
+		case MinusEq: str = "-="; break;
+		case MultEq: str = "*="; break;
+		case DivEq: str = "/="; break;
+		case ModEq: str = "%="; break;
+		case NotEq: str = "!="; break;
+		case EqualsEq: str = "=="; break;
+		case Inc: str = "++"; break;
+		case Dec: str = "--"; break;
+		case Break: str = "break"; break;
+		case Continue: str = "continue"; break;
+		case Return: str = "return"; break;
+		case Void: str = "void"; break;
+		case Int: str = "int"; break;
+		case Long: str = "long "; break;
+		case Double: str = "double"; break;
+		case Bool: str = "bool"; break;
+		case Ident: str = "identifier"; break;
+		case Number: str = "number"; break;
 		}
 		error("Was expected: " + str);
 	}
@@ -415,20 +414,20 @@ double acceptNumber() {
 string dataType() {
 	string result_type = current_id;
 	switch (symbol) {
-		case Int:
-		case Bool:
-		case Double:
+	case Int:
+	case Bool:
+	case Double:
+		nextSymbol();
+		break;
+	case Long:
+		nextSymbol();
+		if (symbol == Long) {
+			result_type += " long";
 			nextSymbol();
-			break;
-		case Long:
-			nextSymbol();
-			if (symbol == Long) {
-				result_type += " long";
-				nextSymbol();
-			}
-			break;
-		default:
-			error("Data type was expected");
+		}
+		break;
+	default:
+		error("Data type was expected");
 	}
 	return result_type;
 }
