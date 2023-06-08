@@ -580,7 +580,7 @@ void TranslatingVisitor::handle(Program& n) {
 
 	ifstream main_func_file("ProgramPartFiles/MainFunction.txt");
 	if (main_func_file) {
-		if (writing_mode)
+		if (writing_mode) 
 			analysing_program << main_func_file.rdbuf();
 		main_func_file.close();
 	}

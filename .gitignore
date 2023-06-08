@@ -1,9 +1,13 @@
 /AlgoliteProject/AlgoliteTranspiler/Debug/
+/AlgoliteProject/Documentation/
 /AlgoliteProject/AlgoliteTranspiler/Release/
 /AlgoliteProject/AlgoliteTranspiler/x64/
 /AlgoliteProject/AlgoliteTranspiler/AlgoliteTranspiler/Debug/
 /AlgoliteProject/AlgoliteTranspiler/AlgoliteTranspiler/Release/
 /AlgoliteProject/AlgoliteTranspiler/AlgoliteTranspiler/x64/
+/AlgoliteProject/AlgoliteTranspiler/AlgoliteTranspiler/finalOutput.cpp
+/AlgoliteProject/AlgoliteTranspiler/AlgoliteTranspiler/output_program.cpp
+*.png
 *.sln
 *.vcxproj*
 /AlgoliteProject/AlgoliteTranspiler/.vs/

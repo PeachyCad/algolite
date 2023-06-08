@@ -1195,7 +1195,7 @@ Program program() {
 }
 
 int main() {
-	setlocale(LC_ALL, "ru");
+	//setlocale(LC_ALL, "ru");
 
 	initText();
 	Program current_program = program();
