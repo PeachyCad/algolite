@@ -1,2 +1,2 @@
 # Algolite
- Flutter light-weight notes app
+Software for algorithm's complexity analysis, based on developed language Algolite
