@@ -7,5 +7,5 @@ Install **Visual Studio with MSVC** or **g++** to compile Algolite code to C++. 
 ## Using
 Use Visual Studio to compile or use command **g++ -O3 -std=c++14 -o –lpthread main_program AlgoliteTranspiler.cpp TranslatingVisitor.cpp -lm**
 
-## Reslut
+## Result
 As the result you will get a **.png** picture with description of algorithm's complexity 
