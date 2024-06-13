@@ -5,9 +5,13 @@
 #include "Nodes.h"
 #include "TranslatingVisitor.h"
 
+
 #define SUCCESS_COLORIZED_COUT "\033[1m\033[32m"
 #define ERROR_COLORIZED_COUT "\033[1m\033[31m"
 #define STOP_COLORIZED_COUT "\033[0m"
+
+#define MAGIC_ENUM_RANGE_MAX 300
+#include "magic_enum.hpp"
 
 using namespace std;
 string text;
@@ -107,8 +111,7 @@ unique_ptr<StatementNode> command();
 void error(string text_error) {
 	cout << ERROR_COLORIZED_COUT << "Line " << prev_symbol_line << ", symbol " << prev_symbol_pos << ": ";
 	cout << text_error << STOP_COLORIZED_COUT << "\n";
-	cout << "Was captured: " << symbol << "\n";
-	system("pause");
+	cout << "Was captured: " << magic_enum::enum_name(symbol) << "\n";
 	exit(1);
 }
 
