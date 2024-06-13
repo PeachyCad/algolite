@@ -13,7 +13,7 @@ void matrixComputing() {
 				a[ i ][ j ] = 1.0 ;	b[ i ][ j ] = 1.0 ; c[ i ][ j ] = 0 ;
 			}
 		}
-		i = 4 ; j = 0 ;
+		i = par - 1 ; j = 0 ;
 		for ( int v = 0 ; v < par ; ++v ) {
 			a[ i ][ j ] = 2.0 ;
 			i -= 1 ;
