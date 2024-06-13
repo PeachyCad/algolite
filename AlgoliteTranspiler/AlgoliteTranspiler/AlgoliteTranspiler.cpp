@@ -7,13 +7,13 @@
 
 #define SUCCESS_COLORIZED_COUT "\033[1m\033[32m"
 #define ERROR_COLORIZED_COUT "\033[1m\033[31m"
-#define STOP_COLORIZED_COUT "\033[0m" 
+#define STOP_COLORIZED_COUT "\033[0m"
 
 using namespace std;
 string text;
 string current_id;
 string string_literal;
-int index, line, pos;
+int idx, line, pos;
 int prev_symbol_index, prev_symbol_line, prev_symbol_pos;
 bool is_real_number;
 bool has_main = false;
@@ -113,13 +113,13 @@ void error(string text_error) {
 }
 
 void savePrevSymbolData() {
-	prev_symbol_index = index;
+	prev_symbol_index = idx;
 	prev_symbol_pos = pos;
 	prev_symbol_line = line;
 }
 
 void backupSymbolData(int backup_index, int backup_pos, int backup_line) {
-	index = backup_index;
+	idx = backup_index;
 	pos = backup_pos;
 	line = backup_line;
 	nextSymbol();
@@ -130,41 +130,41 @@ void nextSymbol() {
 	skipSpaces();
 	savePrevSymbolData();
 
-	if (index == text.length()) {
+	if (idx == text.length()) {
 		symbol = EndOfFile;
 		return;
 	}
-	switch (text[index]) {
+	switch (text[idx]) {
 	case '(': case ')':
 	case '{': case '}':
 	case '[': case ']':
 	case ',': case ';':
 	case ':': case '#':
-		symbol = (TokenType)text[index];
-		index++;
+		symbol = (TokenType)text[idx];
+		idx++;
 		pos++;
 		break;
 
 	case '\n':
 		line++;
 		symbol = NewLine;
-		index++;
+		idx++;
 		pos = 1;
 		break;
 
 	case '&':
-		if (text[index + 1] == '&') {
+		if (text[idx + 1] == '&') {
 			symbol = And;
-			index += 2;
+			idx += 2;
 			pos++;
 			break;
 		}
 		else error("Unknown symbol");
 
 	case '|':
-		if (text[index + 1] == '|') {
+		if (text[idx + 1] == '|') {
 			symbol = Or;
-			index += 2;
+			idx += 2;
 			pos++;
 			break;
 		}
@@ -175,39 +175,39 @@ void nextSymbol() {
 	case '!': case '=':
 	case '/': case '%':
 	case '*':
-		if (text[index + 1] != '=') {
-			if (text[index] == '+' && text[index + 1] == '+') {
+		if (text[idx + 1] != '=') {
+			if (text[idx] == '+' && text[idx + 1] == '+') {
 				symbol = Inc;
-				index += 2;
+				idx += 2;
 				pos += 2;
 				break;
 			}
-			else if (text[index] == '-' && text[index + 1] == '-') {
+			else if (text[idx] == '-' && text[idx + 1] == '-') {
 				symbol = Dec;
-				index += 2;
+				idx += 2;
 				pos += 2;
 				break;
 			}
-			else if (text[index] == '<' && text[index + 1] == '<') {
+			else if (text[idx] == '<' && text[idx + 1] == '<') {
 				symbol = LeftLeft;
-				index += 2;
+				idx += 2;
 				pos += 2;
 				break;
 			}
-			else if (text[index] == '>' && text[index + 1] == '>') {
+			else if (text[idx] == '>' && text[idx + 1] == '>') {
 				symbol = RightRight;
-				index += 2;
+				idx += 2;
 				pos += 2;
 				break;
 			}
 			else {
-				symbol = (TokenType)text[index];
-				index++;
+				symbol = (TokenType)text[idx];
+				idx++;
 				pos++;
 			}
 		}
 		else {
-			switch (text[index]) {
+			switch (text[idx]) {
 			case '<': symbol = LessEq; break;
 			case '+': symbol = PlusEq; break;
 			case '-': symbol = MinusEq; break;
@@ -219,7 +219,7 @@ void nextSymbol() {
 			case '=': symbol = EqualsEq; break;
 			default: break;
 			}
-			index += 2;
+			idx += 2;
 			pos += 2;
 		}
 		break;
@@ -227,19 +227,19 @@ void nextSymbol() {
 	case '"':
 		symbol = StringLiteral;
 		string_literal = "\"";
-		index++;
+		idx++;
 		pos++;
-		while (text[index] != '"') {
-			string_literal += text[index];
-			if (index == text.length())
+		while (text[idx] != '"') {
+			string_literal += text[idx];
+			if (idx == text.length())
 				error("Unknown symbol");
 			else {
-				index++;
+				idx++;
 				pos++;
 			}
 		}
 		string_literal += "\"";
-		index++;
+		idx++;
 		pos++;
 		break;
 
@@ -281,7 +281,7 @@ void nextSymbol() {
 
 void initText() {
 	text = readSource("SourceAlgolite.txt");
-	index = 0;
+	idx = 0;
 	line = 1;
 	pos = 1;
 	nextSymbol();
@@ -336,19 +336,19 @@ void accept(TokenType expected) {
 }
 
 void skipSpaces() {
-	while (text[index] == ' ' || text[index] == '\t' || text[index] == '\r' || text[index] == '\n') {
-		if (text[index] == '\n') {
+	while (text[idx] == ' ' || text[idx] == '\t' || text[idx] == '\r' || text[idx] == '\n') {
+		if (text[idx] == '\n') {
 			line++;
 			pos = 1;
 		}
 		else
 			pos++;
-		index++;
+		idx++;
 	}
 }
 
 bool digit() {
-	if (text[index] >= '0' && text[index] <= '9') return true;
+	if (text[idx] >= '0' && text[idx] <= '9') return true;
 	return false;
 }
 
@@ -357,48 +357,48 @@ void readNumber() {
 	number_value = 0;
 
 	while (digit()) {
-		number_value = number_value * 10 + text[index] - '0';
-		index++;
+		number_value = number_value * 10 + text[idx] - '0';
+		idx++;
 		pos++;
 	}
-	if (text[index] == '.') {
+	if (text[idx] == '.') {
 		is_real_number = true;
-		index++;
+		idx++;
 		pos++;
 		if (!digit()) {
-			index--;
+			idx--;
 			pos--;
 			return;
 		}
 
 		double weight = 0.1;
 		while (digit()) {
-			number_value += weight * (text[index] - '0');
+			number_value += weight * (text[idx] - '0');
 			weight /= 10;
-			index++;
+			idx++;
 			pos++;
 		}
 	}
 }
 
 bool letter() {
-	if (text[index] == '_') return true;
-	if (text[index] >= 'a' && text[index] <= 'z') return true;
-	if (text[index] >= 'A' && text[index] <= 'Z') return true;
+	if (text[idx] == '_') return true;
+	if (text[idx] >= 'a' && text[idx] <= 'z') return true;
+	if (text[idx] >= 'A' && text[idx] <= 'Z') return true;
 	return false;
 }
 
 string id() {
-	int startIndex = index;
+	int startIndex = idx;
 	if (!letter()) error("Isn't a letter");
-	index++;
+	idx++;
 	pos++;
 
 	while (letter() || digit()) {
-		index++;
+		idx++;
 		pos++;
 	}
-	return text.substr(startIndex, index - startIndex);
+	return text.substr(startIndex, idx - startIndex);
 }
 
 double acceptNumber() {
@@ -1201,9 +1201,18 @@ int main() {
 	current_program.visit(visitor);
 
 	cout << SUCCESS_COLORIZED_COUT << "Transpilation was compiled successfully" << STOP_COLORIZED_COUT << "\n\n";
-	system("pause");
-	system("uncrustify -c msvc.cfg -f finalOutput.cpp --no-backup -o finalOutput.cpp");
-	system("pause");
-	system("g++ -O3 -std=c++14 -o output_program.exe finalOutput.cpp pbPlots.cpp supportLib.cpp -lm -D _WIN32_WINNT=0x0A00");
-	system("start output_program.exe");
+
+	/**
+	* Example of how to automately run transpilation with uncrustify.
+	*
+	* On Windows:
+	* system("uncrustify -c msvc.cfg -f finalOutput.cpp --no-backup -o finalOutput.cpp");
+	* system("g++ -O3 -std=c++20 -o output_program.exe finalOutput.cpp pbPlots.cpp supportLib.cpp -lm -D _WIN32_WINNT=0x0A00");
+	* system("start output_program.exe");
+	*
+	* On Unix:
+	* system("uncrustify -c msvc.cfg -f finalOutput.cpp --no-backup -o finalOutput.cpp");
+	* system("g++ -O3 -std=c++20 -o output_program.out finalOutput.cpp pbPlots.cpp supportLib.cpp");
+	* system("./output_program.out");
+	*/
 }

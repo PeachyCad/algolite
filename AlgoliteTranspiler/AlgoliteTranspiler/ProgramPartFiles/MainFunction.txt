@@ -33,5 +33,13 @@ int main() {
 
     WriteToFile(pngdata, "func.png");
     DeleteImage(imageReference->image);
-    system("start func.png");
+    
+    /**
+    * Example of how to automately run image.
+    *
+	* On Windows:
+    * system("start func.png");
+    *
+    * On Unix use software which is compatible with your OS.
+    */
 }

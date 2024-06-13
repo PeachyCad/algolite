@@ -8,7 +8,10 @@
 /AlgoliteTranspiler/AlgoliteTranspiler/x64/
 /AlgoliteTranspiler/AlgoliteTranspiler/finalOutput.cpp
 /AlgoliteTranspiler/AlgoliteTranspiler/output_program.cpp
+/AlgoliteTranspiler/.vs/
+*.out
+*.exe
 *.png
 *.sln
 *.vcxproj*
-/AlgoliteTranspiler/.vs/
+.DS_Store
